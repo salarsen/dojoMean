@@ -1,0 +1,28 @@
+<legend>Add a Book</legend>
+
+<form (submit)='onSubmit($event, form) || form.reset()' #form='ngForm'>
+    {{ form.value | json }}
+    <div>
+        <label for="title">Title</label>
+        <input type="text" name='title' [(ngModel)]='book.title' required>
+    </div>
+    <div>
+        <label for="">Author</label>
+        <input type="text" name='author' [(ngModel)]='book.author' required>
+    </div>
+    <div>
+        <label for="">Year</label>
+        <input type="number" name='year' [(ngModel)]='book.year' required>
+    </div>
+    <div>
+        <label for="">Pages</label>
+        <input type="number" name='pages' [(ngModel)]='book.pages' required>
+    </div>
+    <div>
+        <label for="">Publisher</label>
+        <input type="text" name='publisher' [(ngModel)]='book.publisher' required>
+    </div>
+    <button [disabled]='form.invalid'>Create</button>
+</form>
+
+<button routerLink='/list'>Back</button>

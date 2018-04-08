@@ -1,0 +1,31 @@
+<div ng-init='index()'>
+   <a href="#!/friends/new"><button type="button" name="button">New Friend</button></a>
+   <table>
+      <thead>
+         <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Sex</th>
+            <th>Birthday</th>
+            <th>Actions</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr ng-repeat='friend in friends'>
+            <td ng-bind='friend.name'></td>
+            <td ng-bind='friend.age'></td>
+            <td ng-bind='friend.sex'></td>
+            <td ng-bind='friend.birthday | date: MM/dd/yyyy'</td>
+            <td>
+               <a href="#!/friends/{{friend._id}}">
+                  <button type="button" name="button">Info</button>
+               </a>
+               <a href="#!/friends/{{friend._id}}/edit">
+                  <button type="button" name="button">Edit</button>
+               </a>
+               <button type="button" name="button" ng-click='destroy(friend._id)'>Remove</button>
+            </td>
+         </tr>
+      </tbody>
+   </table>
+</div>

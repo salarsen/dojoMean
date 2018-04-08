@@ -1,0 +1,28 @@
+<div class="ninja_add">
+
+   <h1>Add a Ninja</h1>
+
+   <form ng-submit='addNinja()'>
+      <p>
+         <label for="name"></label>
+         <input type="text" name="name" ng-model="ninja.name" placeholder="Ninja Name..." required>
+      </p>
+      <p>
+         <label for="number">Age:</label>
+         <input type="number" name="age" ng-model="ninja.age" min='1' required>
+      </p>
+      <p>
+         <label for="language">Language</label>
+         <select class="" name="language" ng-options="language as language for language in languages" ng-model='ninja.language' required>
+            <option value="{{language}}">{{language}}</option>
+         </select>
+      </p>
+      <p>
+         <label for="blackbelt">Blackbelt:</label>
+         <select name="blackbelt" ng-options="belt as belt for belt in [true, false]" ng-model="ninja.blackbelt" required></select>
+      </p>
+      <button type="submit" name="button">Add Ninja!</button>
+      <br>
+      <a href="#!/ninjas"><button type="button" name="button">Back</button></a>
+   </form>
+</div>

@@ -1,0 +1,7 @@
+<p>Players Partial</p>
+<div ng-init='index()'>
+   <a href="#!/players/new"><button type="button" name="button">New Player</button></a>
+   <ul>
+      <li ng-repeat='player in players track by $index'><a ng-href="#!/players/{{player._id}}" ng-bind='player.name'></a></li>
+   </ul>
+</div>

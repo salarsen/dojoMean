@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+
+<head>
+  <meta charset="UTF-8">
+  <script src='angular/angular.js'></script>
+  <script src='angular-route/angular-route.js'></script>
+  <script src="application/app.js" charset="utf-8"></script>
+  <script src="application/factories/UserFactory.js" charset="utf-8"></script>
+  <script src="application/controllers/indexController.js" charset="utf-8"></script>
+  <script src="application/controllers/editController.js" charset="utf-8"></script>
+  <script src="application/controllers/newController.js" charset="utf-8"></script>
+  <title>Document</title>
+</head>
+<body>
+   <div ng-hide='true'>
+      <h1>Angular is not loaded...</h1>
+   </div>
+  <div ng-view>
+  </div>
+
+</body>
+
+</html>

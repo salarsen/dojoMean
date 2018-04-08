@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <title>Survey Form</title>
+      <!-- <link rel="stylesheet" href="style.css"> -->
+      <script   src="http://code.jquery.com/jquery-2.2.4.js"   integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="   crossorigin="anonymous"></script>
+      <script type="text/javascript" src="/socket.io/socket.io.js" ></script>
+      <script>
+         $(document).ready(function(){
+            var socket = io.connect();
+            $('form').submit(function(){
+               $('#results').html('');
+
+               // var data = {
+               //    name : $('#name').val(),
+               //    location : $('#location').val(),
+               //    language : $('#language').val(),
+               //    comment : $('#comment').val()
+               // };
+
+               var data = $(this).serialize();
+
+               $(this).trigger('reset');
+
+               socket.emit('form_submitted', {reason : data});
+
+               return false;
+            });
+            socket.on('server_response',function(data){
+               $('#results').html($('#results').html() + data.response);
+            });
+            socket.on('random_number',function(data){
+               $('#results').html($('#results').html() + data.response);
+            });
+         })
+      </script>
+   </head>
+   <body>
+      <div class="container">
+         <div id="results">
+         </div>
+         <form class="survey" action="/" method="post">
+            <p>
+               <label for="name">Name:</label><input type="text" name="name" id="name">
+            </p>
+            <p>
+               <label for="location">Location</label>
+               <select class="" name="location" id="location">
+                  <option value="Seattle, WA">Seattle, WA</option>
+                  <option value="LA, CA">LA, CA</option>
+                  <option value="London, England">London, England</option>
+               </select>
+            </p>
+            <p>
+               <label for="language">Language:</label>
+               <select class="" name="language" id="language">
+                  <option value="javascript">javascript</option>
+                  <option value="python">Python</option>
+                  <option value="html">HTML</option>
+                  <option value="css">CSS</option>
+               </select>
+            </p>
+            <p>
+               <label for="comment">Comment:</label>
+            </p>
+            <p>
+               <textarea name="comment" id="comment" rows="8" cols="80"></textarea>
+            </p>
+            <input type="submit" name="submit" value="Submit">
+         </form>
+      </div>
+   </body>
+</html>

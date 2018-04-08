@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <title>Message Board</title>
+   </head>
+   <body>
+      <div class="container">
+         <h1>Dojo Message Board</h1>
+         <% if (!error) { %>
+            <p class="error"><%= error %></p>
+         <% } %>
+         <div class="message">
+            <form class="" action="/message" method="post">
+               <p><label for="creator">Name:</label><input type="text" name="creator" value=""></p>
+               <p><label for "message">Message:</label></p><p><textarea name="message" rows="8" cols="80"></textarea></p>
+               <p><input type="submit" name="submit" value="Post Message"></p>
+            </form>
+         </div>
+         <hr>
+         <ul>
+            <% for (message of messages) { %>
+               <li>
+                  <p><%= message.creator %></p>
+                  <p><%= message.message %></p>
+                  <p><%= message.createdDate %></p>
+               </li>
+               <li>
+                  <ul>
+                     <% for (comment of message.comments) { %>
+                        <li>
+                           <p>Commentor: <%= comment.commentor %></p>
+                           <p>Comment: <%= comment.comment %></p>
+                           <p>Date: <%= comment.createdDate %></p>
+                        </li>
+                     <% } %>
+                  </ul>
+               </li>
+               <hr>
+               <form class="comment" action="/comment/<%= message.id %>" method="post">
+                  <p><label for="commentor">Name:</label><input type="text" name="commentor" value=""></p>
+                  <p><label for="comment">Comment:</label></p><p><textarea name="comment" rows="8" cols="80"></textarea></p>
+                  <input type="submit" name="submit" value="Post comment">
+               </form>
+            <% } %>
+         </ul>
+      </div>
+   </body>
+</html>

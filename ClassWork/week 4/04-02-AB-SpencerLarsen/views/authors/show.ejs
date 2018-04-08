@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <title>Show Author</title>
+   </head>
+   <body>
+      <h1>Author Details</h1>
+      <table>
+         <thead>
+            <tr>
+               <th>Name:</th>
+               <th>Age:</th>
+               <th>isAlive:</th>
+               <th>Books:</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr>
+               <td><%= author.name %></td>
+               <td><%= author.age %></td>
+               <td><%= author.isAlive %></td>
+               <td>
+                  <ul>
+                     <% for (const book of author.books) { %>
+                        <li><%= book.title %></li>
+                     <% } %>
+                  </ul>
+               </td>
+            </tr>
+         </tbody>
+         <a href="/"><button type="button" name="button">Back</button></a>
+      </table>
+   </body>
+</html>

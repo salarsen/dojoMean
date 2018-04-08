@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+
+</head>
+<body>
+  <label for="">Enter a name</label>
+  <input type="text" id="name">
+
+  <button id="submit-button">Add name</button>
+  <div>
+    <ul id="name-list">
+
+    </ul>
+  </div>
+</body>
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function(){
+    var submitButton = document.getElementById("submit-button");
+    var nameList = document.getElementById("name-list");
+    var nameField = document.getElementById("name");
+
+
+    submitButton.onclick = function(){
+      console.log('submit on click', nameList);
+      console.dir(nameField);
+      //nameList.innerHTML += '<li>'+ nameField.value +'</li>';
+      nameList.innerHTML += `<li>${nameField.value}</li>`;
+      nameField.value = '';
+    };
+    console.dir(submitButton);
+    // console.log('Loaded', 'our button',submitButton, 'our name', nameField);
+  });
+</script>
+</html>

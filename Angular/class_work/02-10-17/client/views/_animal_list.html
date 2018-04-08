@@ -1,0 +1,7 @@
+<div ng-init='getAnimals()'></div>
+   <ul>
+      <li ng-repeat='animal in animals'>
+         <a href="#!/animals/{{$index}}" ng-bind='animal.species'></a>
+         <span ng-bind='animal.move'></span>
+      </li>
+   </ul>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html ng-app='myApp'>
+   <head>
+      <meta charset="utf-8">
+      <title>Product with a Factory</title>
+      <!-- <link rel="stylesheet" href="style.css"> -->
+      <script src="bower_components/angular/angular.js"></script>
+      <script src="main.js"></script>
+   </head>
+   <body>
+      <div ng-controller='mainController'>
+         <div ng-hide='true'>
+            <h1>Angular appears to not be loaded</h1>
+         </div>
+         <form ng-submit='addProduct()'>
+            <p>
+               <label for="name">Product Name:</label>
+               <input type="text" name="name" ng-model='name'>
+            </p>
+            <p>
+               <label for="price">Product Price:</label>
+               <input type="number" name="price" ng-model='price'>
+            </p>
+            <p>
+               <button type="submit" name="button">Add Product</button>
+            </p>
+         </form>
+         <table>
+            <thead>
+               <tr>
+                  <th ng-click='reSort("name")'>Name</th>
+                  <th ng-click='reSort("price")'>Price</th>
+                  <th>Actions</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr ng-repeat='product in products | orderBy:sortTarget:sortDirection'>
+                  <td ng-bind='product.name'></td>
+                  <td>{{product.price | currency}}</td>
+                  <td>
+                     <button type="button" name="button" ng-click='deleteProduct($index)'>Delete Product</button>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+   </body>
+</html>

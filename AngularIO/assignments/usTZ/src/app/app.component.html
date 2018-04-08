@@ -1,0 +1,10 @@
+<h1>US Time Zone Display</h1>
+<button [ngClass]="{'highlighted':timeZone==='PST'}" (click)='timeZoneFunc("PST")'>PST</button>
+<button [ngClass]="{'highlighted':timeZone==='MST'}" (click)='timeZoneFunc("MST")'>MST</button>
+<button [ngClass]="{'highlighted':timeZone==='CST'}" (click)='timeZoneFunc("CST")'>CST</button>
+<button [ngClass]="{'highlighted':timeZone==='EST'}" (click)='timeZoneFunc("EST")'>EST</button>
+<button id='clear' (click)='clear()'>Clear</button>
+
+<p *ngIf='timeZone'>
+   {{time}}
+</p>

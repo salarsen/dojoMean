@@ -1,0 +1,34 @@
+<a href="#!/list">List Users</a>
+<form ng-submit='addUser()'>
+   <p>
+      <label for="first_name">First Name:</label>
+      <input type="text" name="first_name" ng-model='user.first_name' required>
+   </p>
+   <p>
+      <label for="last_name">Last Name:</label>
+      <input type="text" name="last_name" ng-model='user.last_name' required>
+   </p>
+   <p>
+      <label for="fav_lang">Favorite Language</label>
+      <input type="text" name="fav_lang" ng-model='user.fav_lang' required>
+   </p>
+   <button type="submit" name="button">Create User</button>
+</form>
+<table ng-init='getUsers()'>
+   <thead>
+      <tr>
+         <th>First Name</th>
+         <th>Last Name</th>
+         <th>Favorite Language</th>
+         <th>Actions</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr ng-repeat='user in users'>
+         <td ng-bind='user.first_name'></td>
+         <td ng-bind='user.last_name'></td>
+         <td ng-bind='user.fav_lang'></td>
+         <td><button type="button" name="button" ng-click='deleteUser($index)'>Delete User</button></td>
+      </tr>
+   </tbody>
+</table>

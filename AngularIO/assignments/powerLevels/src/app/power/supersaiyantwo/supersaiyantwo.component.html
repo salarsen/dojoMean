@@ -1,0 +1,6 @@
+<div>
+  <p>SuperSaiyan Two: {{ powerLevel }}</p>
+  <h3 *ngIf="powerLevel > 9000 && power <= 20000">Over 9000!</h3>
+  <h3 *ngIf="powerLevel > 20000 && power <= 50000">Superlative!</h3>
+  <h3 *ngIf="powerLevel >= 50000">The One!</h3>
+</div>

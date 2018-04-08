@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <title>Book Show</title>
+   </head>
+   <body>
+      <table>
+         <thead>
+            <tr>
+               <th>Title:</th>
+               <th>Publish Date:</th>
+               <th>Page Count:</th>
+               <th>Subject</th>
+               <th>Author</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr>
+               <td><%= book.title %></td>
+               <td><%= book.publishDate %></td>
+               <td><%= book.pageCount %></td>
+               <td><%= book.subject %></td>
+               <td><a href="/authors/<%= book.author.id %>"><%= book.author.name %></a></td>
+            </tr>
+         </tbody>
+      </table>
+      <a href="/"><button type="button" name="button">Back</button></a>
+   </body>
+</html>

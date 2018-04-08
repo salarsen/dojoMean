@@ -1,0 +1,2 @@
+<h1>SwitchBoard</h1>
+<button class='{{switch}}' [ngClass]='{"button" : true }' *ngFor='let switch of switchboard, let idx = index' (click)='swapIt(idx)'>{{switch}} ({{idx}})</button>

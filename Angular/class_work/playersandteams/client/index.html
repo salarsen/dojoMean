@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html ng-app='app'>
+   <head>
+      <meta charset="utf-8">
+      <title>Players and Teams</title>
+      <!-- <link rel="stylesheet" href="style.css"> -->
+      <script src="angular/angular.js" charset="utf-8"></script>
+      <script src="angular-route/angular-route.js" charset="utf-8"></script>
+      <script src="application/app.js" charset="utf-8"></script>
+      <script src="application/controllers/players.js" charset="utf-8"></script>
+      <script src="application/controllers/teams.js" charset="utf-8"></script>
+      <script src="application/factories/player.js" charset="utf-8"></script>
+      <script src="application/factories/team.js" charset="utf-8"></script>
+   </head>
+   <body>
+      <div ng-hide='true'>
+         <h1>Angular is not loaded...</h1>
+      </div>
+      <a href="#!/teams">Teams</a>
+      <a href="#!/players">Players</a>
+      <!-- Partials load here -->
+      <div ng-view></div>
+   </body>
+</html>

@@ -1,0 +1,22 @@
+<a href="#!/"><button type="button" name="button">Home</button></a>
+<form ng-submit='create()'>
+   <p>
+      <label for="name">Name:</label>
+      <input type="text" name="name" ng-model='friend.name' required>
+   </p>
+   <p>
+      <label for="age">Age:</label>
+      <input type="number" name="age" ng-model='friend.age' min='1' required>
+   </p>
+   <p>
+      <label for="sex">Sex:</label>
+      <select name="sex" ng-model='friend.sex' required>
+         <option value="{{option}}" ng-repeat='option in ["Male","Female"]' ng-bind='option'></option>
+      </select>
+   </p>
+   <p>
+      <label for="birthday">Birthday</label>
+      <input type="Date" name="birthday" ng-model='friend.birthday' required>
+   </p>
+   <button type="submit" name="button">Add Friend</button>
+</form>

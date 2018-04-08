@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <title>Edit Dog</title>
+   </head>
+   <body>
+      <form name="edit" action="/dogs/<%= dog.id %>" method="post">
+         <input type="text" name="name" value="<%= dog.name %>">
+         <input type="text" name="owner" value="<%= dog.owner %>">
+         <input type="number" name="age" value="<%= dog.age %>">
+         <input type="text" name="tricks" value="<%= dog.tricks %>">
+         <input type="submit" value="Updated Dog" name="submit update">
+      </form>
+      <form name="destroy" action="/dogs/destroy/<%= dog.id %>" method="post">
+         <input type="submit" value="Remove Dog" name="submit">
+      </form>
+      <a href="/"><button type="button" name="button">Back</button></a>
+   </body>
+</html>

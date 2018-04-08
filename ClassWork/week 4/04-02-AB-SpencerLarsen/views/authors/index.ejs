@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <title>Author List</title>
+   </head>
+   <body>
+      <div class="">
+         <table>
+            <thead>
+               <tr>
+                  <th>Author Name</th>
+                  <th>Age</th>
+                  <th>Is Alive</th>
+                  <th>Books</th>
+               </tr>
+            </thead>
+            <tbody>
+               <% for (let author of authors) { %>
+                  <tr>
+                     <td><a href="/authors/<%= author.id %>"><%= author.name %></a></td>
+                     <td><%= author.age %></td>
+                     <td><%= author.isAlive %></td>
+                     <td>
+                        <ul>
+                           <% for (const book of author.books) { %>
+                              <li><a href="/books/<%= book.id %>"><%= book.title %></a></li>
+                           <% } %>
+                        </ul>
+                     </td>
+
+                  </tr>
+               <% } %>
+            </tbody>
+         </table>
+         <a href="/"><button type="button" name="button">Back</button></a>
+      </div>
+   </body>
+</html>

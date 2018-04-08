@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html ng-app='myApp'>
+   <head>
+      <meta charset="utf-8">
+      <title>Angular Controllers</title>
+      <!-- <link rel="stylesheet" href="style.css"> -->
+      <script src="bower_components/angular/angular.js"></script>
+      <script type="text/javascript">
+         var myAppModule = angular.module('myApp',[]);
+
+         myAppModule.controller('myController',['$scope','$http', function($scope, $http){
+            $scope.name = 'Spencer';
+            $scope.fetchData = function(){
+               var myArray = [1,2,4,69,993];
+               $scope.results = myArray;
+            };
+            $scope.animalNames = [];
+            $scope.addAnimal = function(){
+               console.log($scope.animalName);
+               $scope.animalNames.push($scope.animalName);
+               $scope.animalName = '';
+            }
+         }]);
+      </script>
+   </head>
+   <body ng-controller='myController'>
+      <div class="" ng-hide="true">
+         Angular does not appear to be loaded...
+      </div>
+      <div data-ng-init="fetchData()">
+         <!-- {{results}} -->
+         <ul>
+            <li ng-repeat="animal in animalNames track by $index">{{animal}}</li>
+         </ul>
+         <input type="text" ng-model="animalName"><button type="button" ng-click="addAnimal()">Add Animal Name</button>
+         <!-- <p ng-bind="animalNames"></p> -->
+      </div>
+      <p ng-bind='name'></p>
+
+   </body>
+</html>

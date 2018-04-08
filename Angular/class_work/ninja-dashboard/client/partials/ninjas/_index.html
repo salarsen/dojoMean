@@ -1,0 +1,24 @@
+<article class="" ng-init='getNinjas()'>
+   <h1>Ninjas</h1>
+
+   <a href="#!/ninjas/new"><button type="button" name="button">Add a Ninja</button></a>
+
+   <table>
+      <thead>
+         <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Language</th>
+            <th>Blackbelt</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr ng-repeat='ninja in ninjas'>
+            <td> <a href="#!/ninjas/{{ninja._id}}" ng-bind='ninja.name'></a></td>
+            <td ng-bind='ninja.age'></td>
+            <td ng-bind='ninja.language'></td>
+            <td ng-bind='ninja.blackBelt'></td>
+         </tr>
+      </tbody>
+   </table>
+</article>

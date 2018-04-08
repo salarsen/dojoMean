@@ -1,0 +1,27 @@
+<!-- <book-new (addBook)='addBook($event)'></book-new> -->
+{{ errorMessage }}
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Year</th>
+            <th>Author</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor='let book of books' (click)='selectBook(book)' [routerLink]='["/books", book._id]'>
+            <td>{{ book._id }}</td>
+            <td>{{ book.title | titlize }}</td>
+            <td>{{ book.year }}</td>
+            <td>{{ book.author }}</td>
+            <td>
+                <button (click)='removeBook($event, book)'>Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<button routerLink='/new'>New</button>
+<!-- <book-detail [book]='selectedBook'></book-detail> -->

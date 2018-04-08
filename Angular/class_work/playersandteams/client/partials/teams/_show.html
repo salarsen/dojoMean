@@ -1,0 +1,26 @@
+<div class="">
+   <table>
+      <thead>
+         <tr>
+            <th>Name</th>
+            <th>Team</th>
+            <th>Actions</th>
+         </tr>
+      </thead>
+   </table>
+   <tbody>
+      <tr ng-repeat='team in teams'>
+         <td ng-bind='team.name'></td>
+
+         <!-- returns array, loop through to beautify -->
+         <td ng-bind='team._players'></td>
+         <td>
+            <a href="#!/teams/{{team._id}}/edit">
+               <button type="button" name="button">Edit</button>
+            </a>
+
+            <button type="button" name="button" ng-click='destroy(team._id)'>Destroy</button>
+         </td>
+      </tr>
+   </tbody>
+</div>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <title>Group Chat</title>
+      <!-- <link rel="stylesheet" href="style.css"> -->
+      <script   src="http://code.jquery.com/jquery-2.2.4.js"   integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="   crossorigin="anonymous"></script>
+      <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+      <script>
+         $(document).ready(function(){
+            var socket = io.connect();
+
+            //get the user's name and send to server
+            var user = prompt("Enter your name:");
+            user = user || "Bob the builder";
+            socket.emit('new_user', {reason : user});
+
+            socket.on('user_response',function(data){
+               $('#users').html(data.response.users);
+               $('#chat').append(`<p>${data.response.user} joined the chat.</p>`);
+            });
+
+            // chat functions
+            $('#chat_send').keypress(function(event){
+               if(event.keyCode === 13){ //enter key is pressed
+                  socket.emit('chat_add', {reason : {user : user, userText : $('#chat_send').val()}}); //send user data and text
+                  $('#chat_send').val(''); // wipe text val
+               }
+            });
+            socket.on('chat_response',function(data){
+               $('#chat').append(data.response); //if we want to show past history we jsut need to push to the chat array in the server file and then replace do html(data.reason);
+            });
+            $(window).unload(function(){
+               socket.emit('remove_user', {reason : user});
+            });
+            socket.on('remove_response',function(data){
+               $('#chat').append(data.response.user_update);
+               $('#users').html(data.response.users);
+            });
+         });
+      </script>
+   </head>
+   <body>
+      <div class="container">
+         <div id="users">
+         </div>
+         <input type="text" name="chat_send" id="chat_send" value="">
+         <div id="chat">
+         </div>
+      </div>
+   </body>
+</html>

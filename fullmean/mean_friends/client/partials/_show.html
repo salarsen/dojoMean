@@ -1,0 +1,19 @@
+<a href="#!/"><button type="button" name="button">Home</button></a>
+<div ng-init='getFriend()'>
+   <p>
+      Name: <span ng-bind='friend.name'></span>
+   </p>
+   <p>
+      Age: <span ng-bind='friend.age'></span>
+   </p>
+   <p>
+      Sex: <span ng-bind='friend.sex'></span>
+   </p>
+   <p>
+      Birthday: <span ng-bind='friend.birthday | date: MM/dd/yyyy'></span>
+   </p>
+   <p>
+      <a href="#!/friends/{{friend._id}}/edit"><button type="button" name="button">Edit</button></a>
+      <button type="button" name="button" ng-click='destroy(friend._id)'>Remove Friend</button>
+   </p>
+</div>

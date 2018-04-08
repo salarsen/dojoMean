@@ -1,0 +1,9 @@
+.off {
+   background-color: red;
+}
+.on {
+   background-color: green;
+}
+.button {
+   padding: 0 5px 0 5px;
+}

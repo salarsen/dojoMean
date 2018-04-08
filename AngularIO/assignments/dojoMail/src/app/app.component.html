@@ -1,0 +1,20 @@
+<h1>Dojo Mail</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Importance</th>
+      <th>Subject</th>
+      <th>Content</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let contact of emails">
+      <td>{{contact.address | lowercase}}</td>
+      <td *ngIf='contact.importance'>High</td>
+      <td *ngIf='!contact.importance'>Low</td>
+      <td>{{contact.subject}}</td>
+      <td>{{contact.content}}</td>
+    </tr>
+  </tbody>
+</table>

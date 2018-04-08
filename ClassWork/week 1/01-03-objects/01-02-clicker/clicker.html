@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+
+</head>
+<body>
+  <button id="clickBtn">Click Me</button>
+  <button id="mashBtn">Mash Me</button>
+  <button id="resetBtn">Reset Me</button>
+</body>
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function(){
+    var clickBtn = document.getElementById("clickBtn");
+    var mashBtn = document.getElementById("mashBtn");
+    var resetBtn = document.getElementById("resetBtn");
+
+    mashBtn.hidden = true;
+    resetBtn.hidden = true;
+    mashBtn.onclick = function(){mashCounter++;};
+
+    console.dir(clickBtn);
+    clickBtn.onclick = function(){
+      clickBtn.hidden = true;
+      mashBtn.hidden = false;
+      var time = Math.floor(Math.random()*5)+1;
+      console.log(time);
+      var mashCounter = 0
+      setTimeout(clickEnd, time*1000);
+
+    };
+    function clickEnd(){
+      resetBtn.hidden = false;
+      mashBtn.hidden= true;
+      console.log(mashCounter);
+
+    }
+  });
+</script>
+</html>

@@ -1,0 +1,4 @@
+node_modules/*
+*.pem
+*.zip
+bower_components

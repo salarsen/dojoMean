@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Mongoose Dashboard</title>
+        <!-- <link rel="stylesheet" href="style.css"> -->
+    </head>
+    <body>
+        <h1>Critters Here</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Dog</th>
+                    <th>Owner</th>
+                    <th>Age</th>
+                    <th>Tricks</th>
+                </tr>
+            </thead>
+            <tbody>
+               <% for (let dog of dogs) { %>
+                <tr>
+                   <td><a href="/dogs/edit/<%= dog._id %>"><%= dog.name %></a></td>
+                   <td><%= dog.owner %></td>
+                   <td><%= dog.age %></td>
+                   <td><%= dog.tricks %></td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+        <a href="/dogs/new"><button type="button" name="button">New Dog</button></a>
+    </body>
+</html>

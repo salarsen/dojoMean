@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Capture Name</title>
+        <!-- <link rel="stylesheet" href="style.css"> -->
+        <script type="text/javascript">
+            document.addEventListener("DOMContentLoaded",function(){
+                console.dir(document);
+                var theButton = document.getElementById('the_button');
+                var inputName = document.getElementById('name_field');
+                var itemList = document.getElementById('item_list');
+                theButton.onclick = function(){
+                    // itemList.innerHTML += "<li>" + inputName.value + "</li>";
+                    // console.log(inputName.value);
+                    itemList.innerHTML += `<li>${inputName.value}</li>`;
+                    inputName.value = "";
+
+                };
+            });
+        </script>
+    </head>
+    <body>
+        <label>Enter a name</label>
+        <input type="text" id="name_field">
+        <button id="the_button">Add Name</button>
+        <ul id="item_list"></ul>
+    </body>
+</html>

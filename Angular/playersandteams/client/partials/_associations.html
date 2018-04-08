@@ -1,0 +1,25 @@
+<form ng-submit='assignPlayer()'>
+   <select ng-init='getPlayers()' ng-model='player.id' required>
+      <option ng-repeat='player in players' value={{$index}} ng-bind='player.name'></option>
+   </select>
+   <select ng-init='getTeams()' ng-model='player.team' required>
+      <option ng-repeat='team in teams' value='{{team.name}}' ng-bind='team.name'></option>
+   </select>
+   <button type="submit" name="button">Assign Player to Team</button>
+</form>
+<table>
+   <thead>
+      <tr>
+         <th>Name</th>
+         <th>Team</th>
+         <th>Actions</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr ng-repeat='player in players'>
+         <td ng-bind='player.name'></td>
+         <td ng-bind='player.team'></td>
+         <td><button type="button" name="button" ng-click='clearAssignment($index)'>Clear Assignment</button></td>
+      </tr>
+   </tbody>
+</table>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html ng-app='myApp'>
+   <head>
+      <meta charset="utf-8">
+      <title>Controller and Directives</title>
+      <!-- <link rel="stylesheet" href="style.css"> -->
+      <script src="bower_components/angular/angular.js"></script>
+      <script>
+         var myAppModule = angular.module('myApp',[])
+            .controller('clickTest', function($scope){
+               // $scope.clickVal = true;
+               $scope.clickFunc = function(){
+                  console.log("hello");
+                  if($scope.clickVal){
+                     $scope.clickVal = false;
+                     console.log($scope.clickVal);
+                  } else {
+                     $scope.clickVal = true;
+                     console.log($scope.clickVal);
+                  }
+               };
+            })
+            .controller('submitTest', function($scope){
+               $scope.food_list = [];
+               $scope.submitFunc = function(){
+                  $scope.food_list.push(this.food);
+               };
+            });
+      </script>
+   </head>
+   <body ng-init="food_list">
+      <div ng-hide="true">
+         Angular is not loaded if you are seeing this.
+      </div>
+      <div ng-controller="submitTest">
+         <form ng-submit="submitFunc()">
+            <label for="food">Favorite Food</label><input type="text" ng-model="food">
+            <input type="submit">
+            <p>
+               <input type="search" ng-model="q" palceholder="filter foods..." />
+            </p>
+            <p ng-repeat="food in food_list | filter:q as results">
+               {{food}}
+            </p>
+            <p ng-if="results.length === 0">
+               No results
+            </p>
+         </form>
+         <p>Currently typing:<span ng-bind="food"></span></p>
+         <p ng-if="food">
+            {{food}}
+         </p>
+      </div>
+      <div ng-controller="clickTest">
+         <button ng-click="clickFunc()">Show or Hide</button>
+         <p ng-show="clickVal">
+            hello
+         </p>
+      </div>
+   </body>
+</html>

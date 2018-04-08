@@ -1,0 +1,189 @@
+<h1>Registration</h1>
+<div [hidden]="!submitted">
+  You submitted...
+</div>
+<form #regForm="ngForm" (submit)="onSubmit(); regForm.reset()">
+   <label for="firstName">*First Name:</label>
+      <input type="text"
+         name="firstName"
+         required
+         minlength="4"
+         maxlength="24"
+         [(ngModel)]="user.firstName"
+         #firstName="ngModel"
+      />
+      <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)">
+         <div *ngIf="firstName.errors.required">
+            First Name is required.
+         </div>
+         <div *ngIf="firstName.errors.minlength">
+            First Name must be at least 4 characters long.
+         </div>
+         <div *ngIf="firstName.errors.maxlength">
+            First Name cannot be more than 24 characters long.
+         </div>
+      </div>
+      <p></p>
+      <label for="lastName">*Last Name:</label>
+      <input type="text"
+         name="lastName"
+         required
+         minlength="4"
+         maxlength="24"
+         [(ngModel)]="user.lastName"
+         #lastName="ngModel"
+      >
+      <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)">
+         <div *ngIf="lastName.errors.required">
+            Last Name is required.
+         </div>
+         <div *ngIf="lastName.errors.minlength">
+            Last Name must be at least 4 characters long.
+         </div>
+         <div *ngIf="lastName.errors.maxlength">
+            Last Name cannot be more than 24 characters long.
+         </div>
+      </div>
+      <p></p>
+      <label for="email">*Email:</label>
+      <input type="text"
+         name="email"
+         required
+          minlength="6"
+         [(ngModel)]="user.email"
+         #email="ngModel"
+      >
+      <div *ngIf="email.invalid && (email.dirty || email.touched)">
+         <div *ngIf="email.errors.required">
+            Email is required.
+         </div>
+         <div *ngIf="email.errors.minlength">
+            Email must be at least 6 characters long.
+         </div>
+      </div>
+      <p></p>
+   <label for="password">Password:</label>
+   <input type="password"
+      name="password"
+      required
+      minlength="10"
+      maxlength="20"
+      pattern="^([a-zA-Z0-9@*#]{10,20})$"
+      [(ngModel)]="user.password"
+      #password="ngModel"
+   >
+   <div *ngIf="password.invalid && (password.dirty || password.touched)">
+      <div *ngIf="password.errors.required">
+         Password is required.
+      </div>
+      <div *ngIf="password.errors.minlength">
+         Password must be at least 10 characters long.
+      </div>
+      <div *ngIf="password.errors.maxlength">
+        Password must be less than 20 characters.
+     </div>
+   </div>
+   <p></p>
+   <label for="passwordConf">Password Confirmation:</label>
+   <input type="password"
+      name="passwordConf"
+      required
+      minlength="10"
+      maxlength="20"
+      pattern="^([a-zA-Z0-9@*#]{10,20})$"
+      [(ngModel)]="user.passwordConf"
+      #passwordConf="ngModel"
+   >
+   <div *ngIf="(user.password !== '') && (user.password!==user.passwordConf) && (passwordConf.dirty || passwordConf.touched)">Passwords do not match</div>
+   <div *ngIf="passwordConf.invalid && (passwordConf.dirty || passwordConf.touched)">
+      <div *ngIf="passwordConf.errors.required">
+         Password is required.
+      </div>
+      <div *ngIf="passwordConf.errors.minlength">
+         Password must be at least 10 characters long.
+      </div>
+      <div *ngIf="passwordConf.errors.maxlength">
+        Password must be less than 20 characters.
+     </div>
+   </div>
+   <p></p>
+   <label for="address">Address:</label>
+   <input type="text"
+      name="address"
+      required
+      minlength="10"
+      [(ngModel)]="user.address"
+      #address="ngModel"
+   >
+   <div *ngIf="address.invalid && (address.dirty || address.touched)">
+    <div *ngIf="address.errors.required">
+        Address is required.
+    </div>
+    <div *ngIf="address.errors.minlength">
+      Address must be 10 characters long.
+    </div>
+  </div>
+   <p></p>
+   <label for="address2nd">Unit / Apt. #:</label>
+   <input type="text"
+      name="address2nd"
+      [(ngModel)]="user.address2nd"
+      #address2nd="ngModel"
+   >
+   {{address2nd.errors | json}}
+   <p></p>
+   <label for="city">City:</label>
+   <input type="text"
+      name="city"
+      required
+      [(ngModel)]="user.city"
+      #city="ngModel"
+   >
+   <div *ngIf="city.invalid && (city.dirty || city.touched)">
+    <div *ngIf="city.errors.required">
+      City is required.
+    </div>
+   </div>
+   {{city.errors | json}}
+   <p></p>
+   <label for="state">State:</label>
+   <select name="state"
+    [(ngModel)]="user.state"
+    #state="ngModel"
+    required
+    >
+       <option *ngFor="let state of states" value="{{state.abbreviation}}">{{state.abbreviation}}</option>
+   </select>
+   <div *ngIf="state.invalid && (city.dirty || city.touched)">
+    <div *ngIf="state.errors.required">
+      State is required.
+    </div>
+   </div>
+   <p></p>
+   <label for="lucky">I'm feeling lucky:</label>
+      <input type="radio"
+      name="luckybtn"
+      [(ngModel)]="user.lucky"
+      [value]="true"
+      [checked]="user.lucky"
+      #lucky="ngModel"
+      required
+      >Yes
+      <input type="radio"
+      name="luckybtn"
+      [(ngModel)]="user.lucky"
+      [value]="false"
+      [checked]="!user.lucky"
+      required
+      #lucky="ngModel"
+      >No
+      <div *ngIf="lucky.invalid && (lucky.dirty || lucky.touched)">
+        <div *ngIf="lucky.errors.required">
+          Choosing how you feel is required.
+        </div>
+      </div>
+   <p></p>
+   {{user | json }}
+   <p></p>
+   <button [disabled]="!regForm.form.valid" type="submit">Submit</button>
+</form>

@@ -1,0 +1,17 @@
+{
+  "name": "02-08-17",
+  "homepage": "https://github.com/CodingDojo-MEAN-02-17/SpencerLarsen-Mean",
+  "authors": [
+    "Spencer Larsen <larsen.spener@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

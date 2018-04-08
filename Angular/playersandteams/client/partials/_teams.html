@@ -1,0 +1,20 @@
+<h1>Teams</h1>
+<form ng-submit='addTeam()'>
+   <label for="team_name">Team Name:</label>
+   <input type="text" name="team_name" ng-model='team.name'>
+   <button type="submit" name="button">Add New Team</button>
+</form>
+<table ng-init='getTeams()'>
+   <thead>
+      <tr>
+         <th>Team Name</th>
+         <th>Actions</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr ng-repeat='team in teams'>
+         <td ng-bind='team.name'></td>
+         <td><button type="button" name="button" ng-click='removeTeam()'>Remove Team</button></td>
+      </tr>
+   </tbody>
+</table>
