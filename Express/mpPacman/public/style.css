@@ -1,0 +1,60 @@
+*{
+    margin:0;
+    line-height: 0px;
+}
+body{
+    background-color: black;
+}
+    div.world{
+        width:650px;
+    }
+    div.row div{
+        width:20px;
+        height:20px;
+        display:inline-block;
+    }
+    div.brick{
+        background-color:blue;
+    }
+    div.coin{
+        background: url('images/Dot-icon.png') no-repeat center;
+        background-size: 16px 16px;
+    }
+    #pacman{
+        background: url('images/pacman.gif') no-repeat center;
+        background-size: 16px 16px;
+    }
+
+    #pacman2{
+        background: url('images/pacman.gif') no-repeat center;
+        background-size: 16px 16px;
+    }
+    .ghost{
+        background: url('images/ghost-yellow.gif') no-repeat center;
+        background-size: 16px 16px;
+    }
+    .ghostEdible{
+        background: url('images/ghost-blue.gif') no-repeat center;
+        background-size: 16px 16px;
+
+    }
+    div.cherry{
+        background: url('images/cherry.png') no-repeat center;
+        background-size: 16px 16px;
+    }
+    div.score{
+        border:1px solid white;
+        width: 30px;
+        color: white;
+        text-align:center;
+        padding: 15px 7px 15px 7px;
+        display: inline-block;
+    }
+    div.lives{
+        border:1px solid white;
+        width: 60px;
+        color: white;
+        text-align:center;
+        padding: 15px 7px;
+        display: inline-block;
+    }
