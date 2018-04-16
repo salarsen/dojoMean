@@ -6,25 +6,7 @@
         <script type="text/javascript" src="/socket.io/socket.io.js"></script>
         <script src="/static/mppacman.js"></script>
         <link rel="stylesheet" href="/static/style.css">
-        <script type="text/javascript">
-            $(document).ready(function(){
-                var socket = io.connect();
-
-                var user = prompt("Enter your name:");
-                user = user || "Bob the builder";
-                socket.emit('new_user', { data : user });
-
-                socket.on('user_response', function(data){
-                    console.log(`Received: ${data}`);
-                });
-                document.onkeydown = (e) => {
-                    if(e.keyCode == 40 || e.keyCode == 38 || e.keyCode == 39 || e.keyCode == 37){
-                        // socket.emit('move', )
-                        console.log('movement');
-                    }
-                }
-            })
-        </script>
+        
     </head>
     <body>
         <div class="container">

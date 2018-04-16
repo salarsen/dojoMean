@@ -20,7 +20,7 @@ body{
         background: url('images/Dot-icon.png') no-repeat center;
         background-size: 16px 16px;
     }
-    #pacman{
+    .pacman{
         background: url('images/pacman.gif') no-repeat center;
         background-size: 16px 16px;
     }
