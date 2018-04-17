@@ -32,24 +32,21 @@ var mapDefault = [
 
 io.sockets.on('connection', function (socket) {
     console.log(`Sockets engaged: ${socket.id}`);
-<<<<<<< HEAD
-    socket.on('new_user', function (response) {
-        console.log(response);
-        users.push(response.data);
+    socket.on('new_user', function (request){
+        console.log(request);
+        users.push(request.data);
         io.emit('user_response', {
-            response: {
-                users: users.join(', '), 
-                name : response.data,
-                id : socket.id,
+            'response' : {
+                'users' : users.join(', '), 
+                'name' : request.data,
+                'id' : socket.id,
             }
         });
-=======
-    socket.on('new_user', function (data) {
-        console.log(data);
-        users.push(data.reason);
-        io.emit('user_response', { response: { users: users.join(', '), user: data.data } });
->>>>>>> f4b74ae6754e14eeefa9be2e5377fa274ebf68f8
     });
+
+    socket.on('movement',function(request){
+        console.log('movement',request);
+    })
 
     socket.on('user_start', function(data){
         console.log(data)
