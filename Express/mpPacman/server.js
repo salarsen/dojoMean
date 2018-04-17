@@ -32,6 +32,7 @@ var mapDefault = [
 
 io.sockets.on('connection', function (socket) {
     console.log(`Sockets engaged: ${socket.id}`);
+<<<<<<< HEAD
     socket.on('new_user', function (response) {
         console.log(response);
         users.push(response.data);
@@ -42,5 +43,15 @@ io.sockets.on('connection', function (socket) {
                 id : socket.id,
             }
         });
+=======
+    socket.on('new_user', function (data) {
+        console.log(data);
+        users.push(data.reason);
+        io.emit('user_response', { response: { users: users.join(', '), user: data.data } });
+>>>>>>> f4b74ae6754e14eeefa9be2e5377fa274ebf68f8
     });
+
+    socket.on('user_start', function(data){
+        console.log(data)
+    })
 });

@@ -25,6 +25,22 @@ $(document).ready(function(){
         }
     }
 
+    var socket = io.connect();
+
+    var user = prompt("Enter your name:");
+    user = user || "Bob the builder";
+    socket.emit('new_user', { data: user });
+
+    socket.on('user_response', function (data) {
+        console.log(`Received: `,data);
+    });
+    document.onkeydown = (e) => {
+        if (e.keyCode == 40 || e.keyCode == 38 || e.keyCode == 39 || e.keyCode == 37) {
+            // socket.emit('move', )
+            console.log('movement');
+        }
+    }
+
     let world = [];
     for(let i = 0; i < 10; i++){
         let arr = [];
@@ -45,6 +61,7 @@ $(document).ready(function(){
             world[start_row][start_col] = player.id;
             player.row = start_row;
             player.col = start_col;
+            socket.emit('user_start', {data : player})
             console.log(`Row: ${player.row}, Col: ${player.col}`)
         // }
     }
