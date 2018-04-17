@@ -32,8 +32,15 @@ var mapDefault = [
 
 io.sockets.on('connection', function (socket) {
     console.log(`Sockets engaged: ${socket.id}`);
-    socket.on('new_user', function (data) {
-        users.push(data.reason);
-        io.emit('user_response', { response: { users: users.join(', '), user: data.reason } });
+    socket.on('new_user', function (response) {
+        console.log(response);
+        users.push(response.data);
+        io.emit('user_response', {
+            response: {
+                users: users.join(', '), 
+                name : response.data,
+                id : socket.id,
+            }
+        });
     });
 });

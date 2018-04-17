@@ -1,5 +1,29 @@
 $(document).ready(function(){
     console.log(`JQuery is loaded`);
+    let socket = io.connect();
+
+    let user = prompt("Enter your name:");
+    user = user || "Bob the builder";
+    socket.emit('new_user', { data: user });
+
+    let player = {
+        id: null, //socket id here?
+        row: 0,
+        col: 0,
+    }
+
+    socket.on('user_response', function (data) {
+        console.log(`Received: `, data.response);
+        player.id = data.response.id;
+        setPlayerStartPos(player);
+        generateWorld(world, player);
+    });
+    document.onkeydown = (e) => {
+        if (e.keyCode == 40 || e.keyCode == 38 || e.keyCode == 39 || e.keyCode == 37) {
+            // socket.emit('move', )
+            console.log('movement');
+        }
+    }
 
     let world = [];
     for(let i = 0; i < 10; i++){
@@ -10,20 +34,9 @@ $(document).ready(function(){
         world.push(arr);
     }
 
-    console.log(`Created world: ${world}`);
-
-    let player = {
-        id : -1, //socket id here?
-        row : 0,
-        col : 0,
-    }
-
-    setPlayerStartPos(player);
-    generateWorld(world);
-
     function setPlayerStartPos(player){
-        var start_row = Math.floor(Math.random() * (world.length - 2)) + 1;
-        var start_col = Math.floor(Math.random() * (world[0].length - 2)) + 1;
+        let start_row = Math.floor(Math.random() * (world.length - 2)) + 1;
+        let start_col = Math.floor(Math.random() * (world[0].length - 2)) + 1;
         // while (!checkSpawn(world[start_row][start_col])) {
         //     start_row = Math.floor(Math.random() * (world.length - 2)) + 1;
         //     start_col = Math.floor(Math.random() * (world[0].length - 2)) + 1;
@@ -37,11 +50,11 @@ $(document).ready(function(){
     }
 
     // create an update the world
-    function generateWorld(world) {
-        var displayStr = '';
-        for (var row = 0; row < world.length; row++) {
+    function generateWorld(world, player) {
+        let displayStr = `<div id="${player.id}" class="player">`;
+        for (let row = 0; row < world.length; row++) {
             displayStr += '<div class="row">';
-            for (var col = 0; col < world[row].length; col++) {
+            for (let col = 0; col < world[row].length; col++) {
                 if (world[row][col] === 4) {
                     displayStr += `<div id="R${row}C${col}" class="cherry"></div>`;
                 } else if (world[row][col] > 4 && ghost_status === 0) {
@@ -64,6 +77,8 @@ $(document).ready(function(){
         }
         //console.log(displayStr);
         //console.log(pacman);
+        displayStr += '</div>';
+        console.log(`Created world: ${world}`);
         $('div.world').html(displayStr);
     };
 
