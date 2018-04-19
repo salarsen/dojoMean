@@ -39,67 +39,75 @@ $(document).ready(function(){
 
 
     let playerTimer = setInterval(function(){
-        moveObject(player);
+        checkMove(player);
     },2000)
 
-    function moveObject(target){
-        let fadeIn = 125;
-        let fadeOut = 125;
-        let interval = 5;
+    function checkMove(target){
         // check here before we move if at edge of world
         // if ((target.direction === 0 && target.row !== 0) || (target.direction === 1 && target.col !== world[target.row].length - 1) || (target.direction === 2 && target.row !== world.length - 1) || (target.direction === 3 && target.col !== 0)){
-        if (target.canMove){
-            $(`#R${target.row}C${target.col}`).children().fadeOut(fadeOut, () => {
-                $(`#R${target.row}C${target.col}`).children().remove(`div`);
-
-                if (target.direction === 0 && target.row !== 0) {
-                    target.row--;
-                } else if (target.direction === 1 && target.col !== world[target.row].length - 1) {
-                    target.col++;
-                } else if (target.direction === 2 && target.row !== world.length - 1){
-                    target.row++;
-                } else if (target.direction === 3 && target.col !== 0){
-                    target.col--;
-                } else {
-                    target.canMove = false;
-                }
-                // player.row++;
-                $(`#R${target.row}C${target.col}`).append(`<div id="${target.id}" class="${target.class}" style="display:none;"></div`)
-                setTimeout(() => {
-                    // console.log(`fading in R${target.row}C${target.col}`)
-                    $(`#R${target.row}C${target.col}`).children().fadeIn(fadeIn);
-                }, interval);
-            });
+        if (target.canMove) {
+            if (target.direction === 0 && target.row !== 0) {
+                moveObject(target, { row : target.row, col : target.col },{ row : target.row - 1, col : target.col});
+                // target.row--;
+            } else if (target.direction === 1 && target.col !== world[target.row].length - 1) {
+                moveObject(target, { row: target.row, col: target.col }, { row: target.row, col: target.col + 1 });
+                // target.col++;
+            } else if (target.direction === 2 && target.row !== world.length - 1) {
+                moveObject(target, { row: target.row, col: target.col }, { row: target.row + 1, col: target.col });
+                // target.row++;
+            } else if (target.direction === 3 && target.col !== 0) {
+                moveObject(target, { row: target.row, col: target.col }, { row: target.row, col: target.col - 1 });
+                // target.col--;
+            } else {
+                target.canMove = false;
+            }
         } else {
-            if(target.row === 0 && (target.direction === 1 || target.direction === 2 || target.direction === 3)){ // top of map (or at wall), can move left, right, down if open
+            if (target.row === 0 && (target.direction === 1 || target.direction === 2 || target.direction === 3)) { // top of map (or at wall), can move left, right, down if open
                 target.canMove = true;
-            } else if(target.col === world[target.row].length - 1 && (target.direction === 0 || target.direction === 2 || target.direction === 3)){ // right of map (or at wall), can move up, right, down if open
-                taget.canMove = true;
-            } else if(target.row === world.length -1 && (target.direction === 0 || target.direction === 1 || target.direction === 3)){ // bottom of map (or at wall), can move up, right, left if open
+            } else if (target.col === world[target.row].length - 1 && (target.direction === 0 || target.direction === 2 || target.direction === 3)) { // right of map (or at wall), can move up, right, down if open
                 target.canMove = true;
-            } else if(target.col === 0 && (target.direction === 0 || target.direction === 1 || target.direction === 2)){ // left of map (or at wall), can move up, right, down if open
+            } else if (target.row === world.length - 1 && (target.direction === 0 || target.direction === 1 || target.direction === 3)) { // bottom of map (or at wall), can move up, right, left if open
+                target.canMove = true;
+            } else if (target.col === 0 && (target.direction === 0 || target.direction === 1 || target.direction === 2)) { // left of map (or at wall), can move up, right, down if open
                 target.canMove = true;
             } else {
                 // console.log('target cannot move')
                 target.canMove = false;
             }
         }
+    }
+
+    function moveObject(target, oldPos, newPos){
+        let fadeIn = 125;
+        let fadeOut = 125;
+        let interval = 5;
+        $(`#R${oldPos.row}C${oldPos.col}`).children().fadeOut(fadeOut, () => {
+            $(`#R${oldPos.row}C${oldPos.col}`).children().remove(`div`);
+            $(`#R${newPos.row}C${newPos.col}`).append(`<div id="${target.id}" class="${target.class}" style="display:none;"></div`)
+            setTimeout(() => {
+                // console.log(`fading in R${target.row}C${target.col}`)
+                $(`#R${newPos.row}C${newPos.col}`).children().fadeIn(fadeIn);
+                target.row = newPos.row;
+                target.col = newPos.col;
+            }, interval);
+        });
+        socket.emit('movement', { data : { target : target, newPos : newPos}});
         // } else {
             // console.log('edge of map');
         // }
     }
 
-    function checkMove(target){
-        // assumes any move is invalid unless otherwise checked
-        if(target.direction === 0){
-            if(target.row !== 0 && world[target.row - 1][target.col] === -1){ // if we are not at the top row, check if the row above us is a wall.
-                return false;
-            } else if(target.row === 0 && world[world.length - 1][target.col] === -1){ // if we are at the top row (meaning there was no wall above us), check if the bottom row has a wall. This enables the game to jump from top to bottom, side to side, vice-versa
-                return false;
-            } else { // code point/ghost stuff here
-                return true;
-            }
-        }
+    // function checkMove(target){
+    //     // assumes any move is invalid unless otherwise checked
+    //     if(target.direction === 0){
+    //         if(target.row !== 0 && world[target.row - 1][target.col] === -1){ // if we are not at the top row, check if the row above us is a wall.
+    //             return false;
+    //         } else if(target.row === 0 && world[world.length - 1][target.col] === -1){ // if we are at the top row (meaning there was no wall above us), check if the bottom row has a wall. This enables the game to jump from top to bottom, side to side, vice-versa
+    //             return false;
+    //         } else { // code point/ghost stuff here
+    //             return true;
+    //         }
+    //     }
         // move up
             // if at wall, return false
             // else if at edge of map, check bottom. if wall, return false, else true
@@ -116,7 +124,7 @@ $(document).ready(function(){
         // else if ghost && ghost lunch mode, trigger lunch
         // else if cherry (id 4), trigger ghost lunch mode and points add
         // else if coin (id 1), trigger coin disappear (change to basic) and points add
-    }
+    // }
 
     function setPlayerStartPos(player){
         let start_row = Math.floor(Math.random() * (world.length - 2)) + 1;

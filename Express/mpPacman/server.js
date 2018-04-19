@@ -33,7 +33,7 @@ var mapDefault = [
 io.sockets.on('connection', function (socket) {
     console.log(`Sockets engaged: ${socket.id}`);
     socket.on('new_user', function (request){
-        console.log(request);
+        // console.log(request);
         users.push(request.data);
         io.emit('user_response', {
             'response' : {
