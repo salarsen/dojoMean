@@ -44,6 +44,10 @@ io.sockets.on('connection', function (socket) {
         });
     });
 
+    socket.on('chat_add', function(data){
+        io.emit('chat_response', { response: `<p>${data.reason.user} : ${data.reason.userText}</p>`});
+    });
+
     socket.on('movement',function(request){
         console.log('movement',request);
     })

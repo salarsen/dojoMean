@@ -1,8 +1,29 @@
 $(document).ready(function(){
     console.log(`JQuery is loaded`);
 
+    let socket = io.connect();
+
+    let users = [];
+    let chat = [];
+
+    let user = prompt("Enter your name:");
+    user = user || "Bob the builder";
+    socket.emit('new_user', { data: user });
+
+    // chat functions
+    $('#chat_send').keypress(function (event) {
+        if (event.keyCode === 13) { //enter key is pressed
+            socket.emit('chat_add', { reason: { user: user, userText: $('#chat_send').val() } }); //send user data and text
+            $('#chat_send').val(''); // wipe text val
+        }
+    });
+    socket.on('chat_response', function (data) {
+        $('#chat').append(data.response); //if we want to show past history we jsut need to push to the chat array in the server file and then replace do html(data.reason);
+    });
+
     // basic testing world
     let world = [];
+
     for (let i = 0; i < 10; i++) {
         let arr = [];
         for (let x = 0; x < 10; x++) {
@@ -15,12 +36,6 @@ $(document).ready(function(){
         }
         world.push(arr);
     }
-
-    let socket = io.connect();
-
-    let user = prompt("Enter your name:");
-    user = user || "Bob the builder";
-    socket.emit('new_user', { data: user });
 
     let player = {
         id: null, //socket id here?
@@ -83,7 +98,7 @@ $(document).ready(function(){
         let interval = 5;
         $(`#R${oldPos.row}C${oldPos.col}`).children().fadeOut(fadeOut, () => {
             $(`#R${oldPos.row}C${oldPos.col}`).children().remove(`div`);
-            $(`#R${newPos.row}C${newPos.col}`).append(`<div id="${target.id}" class="${target.class}" style="display:none;"></div`)
+            $(`#R${newPos.row}C${newPos.col}`).append(`<div id="${target.id}" class="${target.class}"></div>`)
             setTimeout(() => {
                 // console.log(`fading in R${target.row}C${target.col}`)
                 $(`#R${newPos.row}C${newPos.col}`).children().fadeIn(fadeIn);
@@ -155,9 +170,9 @@ $(document).ready(function(){
                 if (world[row][col] === 4) {
                     displayStr += `<div id="R${row}C${col}" class="cherry"></div>`;
                 } else if (world[row][col] > 4 && ghost_status === 0) {
-                    displayStr += `<div id="R${row}C${col}" data-attr="ghost1" class="ghost"></div>`;
+                    displayStr += `<div id="R${row}C${col}" class="ghost"></div>`;
                 } else if (world[row][col] > 4 && ghost_status === 1) {
-                    displayStr += `<div id="R${row}C${col}" data-attr="ghost1" class="ghostEdible"></div>`;
+                    displayStr += `<div id="R${row}C${col}" class="ghostEdible"></div>`;
                 } else if (world[row][col] === 2) {
                     displayStr += `<div id="R${row}C${col}" class="brick"></div>`;
                 } else if (world[row][col] === 1) {
@@ -171,6 +186,7 @@ $(document).ready(function(){
         //console.log(displayStr);
         //console.log(pacman);
         displayStr += '</div>';
+        console.log(displayStr);
         // console.log(`Created world: ${world}`);
         $('div.world').html(displayStr);
     };
@@ -179,7 +195,7 @@ $(document).ready(function(){
     // change player direction here.
     document.onkeydown = function(e){
         // console.log(player.row)
-        console.log(`before ${player.direction}`)
+        // console.log(`before ${player.direction}`)
         // 'up' = 0 (row--), 'right' = 1 (col++), down' = 2 (row++), 'left' = 3 (col--)
         if (e.keyCode === 40) {
             player.direction = 2;
@@ -188,14 +204,13 @@ $(document).ready(function(){
         } else if (e.keyCode === 39){
             player.direction = 1;
         } else if (e.keyCode === 37) {
-            console.log('here');
             player.direction = 3;
         } else if(e.keycode === 27){
             clearInterval(playerTimer);
         } else {
             console.log(e.keyCode)
         }
-        console.log(`after ${player.direction}`)
+        // console.log(`after ${player.direction}`)
         // socket.emit('movement',{'player':player})
         // if(e.keyCode === 40){ //arrow down
         //     // check if we can move down
