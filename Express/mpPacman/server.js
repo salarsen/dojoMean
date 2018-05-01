@@ -30,7 +30,8 @@ var mapDefault = [
     [1,-1,1]
 ];
 
-io.sockets.on('connection', function (socket) {
+io.on('connection', function (socket) {
+    // console.log(socket);
     console.log(`Sockets engaged: ${socket.id}`);
     socket.on('new_user', function (request){
         // console.log(request);
@@ -48,11 +49,26 @@ io.sockets.on('connection', function (socket) {
         io.emit('chat_response', { response: `<p>${data.reason.user} : ${data.reason.userText}</p>`});
     });
 
+    socket.on('user_world_add', function(request){
+        console.log(request.world);
+        socket.broadcast.emit('new_user_world', request);
+    })
+
     socket.on('movement',function(request){
-        console.log('movement',request);
+        // console.log('movement',request);
     })
 
     socket.on('user_start', function(data){
-        console.log(data)
+        // console.log(data)
+    })
+
+    socket.on('remove_user', function (data) {
+        console.log(data.user);
+        var i = users.indexOf(data.user);
+        console.log(i)
+        if (i != -1) {
+            users.splice(i, 1);
+            io.emit('remove_user_res', { id: data.playerId });
+        }
     })
 });

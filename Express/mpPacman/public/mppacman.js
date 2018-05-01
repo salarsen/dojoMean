@@ -10,6 +10,9 @@ $(document).ready(function(){
     user = user || "Bob the builder";
     socket.emit('new_user', { data: user });
 
+    $(window).unload(function () {
+        socket.emit('remove_user', { user : user, playerId : player.id });
+    });
     // chat functions
     $('#chat_send').keypress(function (event) {
         if (event.keyCode === 13) { //enter key is pressed
@@ -18,8 +21,27 @@ $(document).ready(function(){
         }
     });
     socket.on('chat_response', function (data) {
-        $('#chat').append(data.response); //if we want to show past history we jsut need to push to the chat array in the server file and then replace do html(data.reason);
+        console.log(data);
+        $('#chat').prepend(data.response); //if we want to show past history we jsut need to push to the chat array in the server file and then replace do html(data.reason);
     });
+
+    socket.on('user_response', function (data) {
+        player.id = data.response.id;
+        generateWorld(world, player, 'world');
+        setPlayerStartPos(player);
+        $('#chat').prepend(`<p>${data.response.name} joined the conversation.</p>`);
+        socket.emit('user_world_add', { user: player, world: world });
+    });
+
+    socket.on('new_user_world', function(data){
+        console.log(data);
+        generateWorld(data.world, data.user, 'otherGameClients');
+    })
+
+    socket.on('remove_user_res',function(data){
+        console.log(data);
+        $(`div #${data.id}`).detach();
+    })
 
     // basic testing world
     let world = [];
@@ -46,11 +68,7 @@ $(document).ready(function(){
         class : 'pacman',
     }
 
-    socket.on('user_response', function (data) {
-        player.id = data.response.id;
-        generateWorld(world, player);
-        setPlayerStartPos(player);
-    });
+
 
 
     let playerTimer = setInterval(function(){
@@ -96,12 +114,12 @@ $(document).ready(function(){
         let fadeIn = 125;
         let fadeOut = 125;
         let interval = 5;
-        $(`#R${oldPos.row}C${oldPos.col}`).children().fadeOut(fadeOut, () => {
+        $(`#${target.id} #R${oldPos.row}C${oldPos.col}`).children().fadeOut(fadeOut, () => {
             $(`#R${oldPos.row}C${oldPos.col}`).children().remove(`div`);
             $(`#R${newPos.row}C${newPos.col}`).append(`<div id="${target.id}" class="${target.class}"></div>`)
             setTimeout(() => {
                 // console.log(`fading in R${target.row}C${target.col}`)
-                $(`#R${newPos.row}C${newPos.col}`).children().fadeIn(fadeIn);
+                $(`#${target.id} #R${newPos.row}C${newPos.col}`).children().fadeIn(fadeIn);
                 target.row = newPos.row;
                 target.col = newPos.col;
             }, interval);
@@ -162,7 +180,7 @@ $(document).ready(function(){
     }
 
     // create an update the world
-    function generateWorld(world, player) {
+    function generateWorld(world, player, target) {
         let displayStr = `<div id="${player.id}" class="player">`;
         for (let row = 0; row < world.length; row++) {
             displayStr += '<div class="row">';
@@ -177,6 +195,8 @@ $(document).ready(function(){
                     displayStr += `<div id="R${row}C${col}" class="brick"></div>`;
                 } else if (world[row][col] === 1) {
                     displayStr += `<div id="R${row}C${col}" class="coin"></div>`;
+                } else if (world[row][col] === player.id){
+                    displayStr += `<div id="R${row}C${col}" class="basic"><div id="${player.id}" class="pacman"></div></div>`;
                 } else {
                     displayStr += `<div id="R${row}C${col}" class="basic"></div>`;
                 }
@@ -186,9 +206,9 @@ $(document).ready(function(){
         //console.log(displayStr);
         //console.log(pacman);
         displayStr += '</div>';
-        console.log(displayStr);
+        // console.log(displayStr);
         // console.log(`Created world: ${world}`);
-        $('div.world').html(displayStr);
+        $(`div.${target}`).append(displayStr);
     };
 
 
