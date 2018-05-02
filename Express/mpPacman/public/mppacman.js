@@ -11,6 +11,7 @@ $(document).ready(function(){
     socket.emit('new_user', { data: user });
 
     $(window).unload(function () {
+        console.log('hmmm')
         socket.emit('remove_user', { user : user, playerId : player.id });
     });
     // chat functions
@@ -27,14 +28,16 @@ $(document).ready(function(){
 
     socket.on('user_response', function (data) {
         player.id = data.response.id;
+        console.log(data);
         generateWorld(world, player, 'world');
         setPlayerStartPos(player);
         $('#chat').prepend(`<p>${data.response.name} joined the conversation.</p>`);
+        
         socket.emit('user_world_add', { user: player, world: world });
     });
 
     socket.on('new_user_world', function(data){
-        console.log(data);
+        console.log('huh');
         generateWorld(data.world, data.user, 'otherGameClients');
     })
 

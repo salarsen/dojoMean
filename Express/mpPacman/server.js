@@ -50,8 +50,8 @@ io.on('connection', function (socket) {
     });
 
     socket.on('user_world_add', function(request){
-        console.log(request.world);
-        socket.broadcast.emit('new_user_world', request);
+        console.log('here');
+        io.emit('new_user_world', request);
     })
 
     socket.on('movement',function(request){
