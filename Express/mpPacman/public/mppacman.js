@@ -6,46 +6,7 @@ $(document).ready(function(){
     let users = [];
     let chat = [];
 
-    let user = prompt("Enter your name:");
-    user = user || "Bob the builder";
-    socket.emit('new_user', { data: user });
-
-    $(window).unload(function () {
-        console.log('hmmm')
-        socket.emit('remove_user', { user : user, playerId : player.id });
-    });
-    // chat functions
-    $('#chat_send').keypress(function (event) {
-        if (event.keyCode === 13) { //enter key is pressed
-            socket.emit('chat_add', { reason: { user: user, userText: $('#chat_send').val() } }); //send user data and text
-            $('#chat_send').val(''); // wipe text val
-        }
-    });
-    socket.on('chat_response', function (data) {
-        console.log(data);
-        $('#chat').prepend(data.response); //if we want to show past history we jsut need to push to the chat array in the server file and then replace do html(data.reason);
-    });
-
-    socket.on('user_response', function (data) {
-        player.id = data.response.id;
-        console.log(data);
-        generateWorld(world, player, 'world');
-        setPlayerStartPos(player);
-        $('#chat').prepend(`<p>${data.response.name} joined the conversation.</p>`);
-        
-        socket.emit('user_world_add', { user: player, world: world });
-    });
-
-    socket.on('new_user_world', function(data){
-        console.log('huh');
-        generateWorld(data.world, data.user, 'otherGameClients');
-    })
-
-    socket.on('remove_user_res',function(data){
-        console.log(data);
-        $(`div #${data.id}`).detach();
-    })
-
+      
     // basic testing world
     let world = [];
 
@@ -64,16 +25,71 @@ $(document).ready(function(){
 
     let player = {
         id: null, //socket id here?
+        name : null,
         direction: null, // 'up' = 0 (row--), 'right' = 1 (col++), down' = 2 (row++), 'left' = 3 (col--)
-        canMove : true,
+        canMove: true,
         row: 0,
         col: 0,
-        class : 'pacman',
+        class: 'pacman',
     }
 
+    let user = prompt("Enter your name:");
+    player.name = user || "Bob the builder";
+
+    // get other worlds in response
+    
+    // create user
+    socket.emit('create_user', { data: player.name });
+    
+    // get my data
+    socket.on('myData', function (data) {
+        player.id = data.id;
+        $('#chat').prepend(`<p>${data.users} are currently in the game.</p>`);
+        $('#chat').prepend(`<p>Generating world....</p>`);
+        generateWorld(world, player, 'world');
+        setPlayerStartPos(player);
+        $('#chat').prepend(`<p>World Generated!</p>`);
+        // broadcast my world and info
+        socket.emit('send_my_world', { user: player, world: world });
+    });
+
+    socket.on('userConnected',function(data){
+        $('#chat').prepend(`<p>${data.user.name} - ${data.user.id} joined the conversation.</p>`);
+    });
+
+    // others - on receipt, broadcast individual world to new user socket id
+    socket.on('new_user_world', function (data) {
+        console.log(`new user world`, data);
+        generateWorld(data.world, data.user, 'otherGameClients');
+        console.log(`broadcasting to ${data.user.id}`)
+        socket.to(data.user.id).emit('otherWorld',{ user : player, world : world });
+    });
 
 
+    //destroy my world for others
+    $(window).unload(function () {
+        socket.emit('remove_user', { user : user, playerId : player.id });
+    });
 
+    socket.on('remove_user_res', function (data) {
+        console.log(`remove user res`, data);
+        $(`div #${data.id}`).detach();
+    })
+
+    // chat functions
+    $('#chat_send').keypress(function (event) {
+        if (event.keyCode === 13) { //enter key is pressed
+            console.log(`Chat Send`)
+            socket.emit('chat_add', { reason: { user: user, userText: $('#chat_send').val() } }); //send user data and text
+            $('#chat_send').val(''); // wipe text val
+        }
+    });
+    socket.on('chat_response', function (data) {
+        console.log(`Chat Response`);
+        $('#chat').prepend(data.response); //if we want to show past history we jsut need to push to the chat array in the server file and then replace do html(data.reason);
+    });
+
+    
     let playerTimer = setInterval(function(){
         checkMove(player);
     },2000)
@@ -211,6 +227,7 @@ $(document).ready(function(){
         displayStr += '</div>';
         // console.log(displayStr);
         // console.log(`Created world: ${world}`);
+        console.log(target);
         $(`div.${target}`).append(displayStr);
     };
 
@@ -230,8 +247,8 @@ $(document).ready(function(){
             player.direction = 3;
         } else if(e.keycode === 27){
             clearInterval(playerTimer);
-        } else {
-            console.log(e.keyCode)
+        // } else {
+            // console.log(e.keyCode)
         }
         // console.log(`after ${player.direction}`)
         // socket.emit('movement',{'player':player})

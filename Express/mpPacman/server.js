@@ -33,27 +33,29 @@ var mapDefault = [
 io.on('connection', function (socket) {
     // console.log(socket);
     console.log(`Sockets engaged: ${socket.id}`);
-    socket.on('new_user', function (request){
+    socket.on('create_user', function (request){
         // console.log(request);
         users.push(request.data);
-        io.emit('user_response', {
-            'response' : {
-                'users' : users.join(', '), 
-                'name' : request.data,
-                'id' : socket.id,
-            }
+        socket.emit('myData', {
+            'users' : users.join(', '), 
+            'name' : request.data,
+            'id' : socket.id,
         });
+        socket.broadcast.emit('userConnected',{})
     });
+
+    socket.on('send_my_world', function (request) {
+        console.log(request);
+        socket.broadcast.emit('new_user_world', request);
+    })
 
     socket.on('chat_add', function(data){
         io.emit('chat_response', { response: `<p>${data.reason.user} : ${data.reason.userText}</p>`});
     });
 
-    socket.on('user_world_add', function(request){
-        console.log('here');
-        io.emit('new_user_world', request);
+    socket.on('otherWorld', function(data){
+        console.log('otherworld')
     })
-
     socket.on('movement',function(request){
         // console.log('movement',request);
     })
@@ -63,7 +65,7 @@ io.on('connection', function (socket) {
     })
 
     socket.on('remove_user', function (data) {
-        console.log(data.user);
+        console.log(data, users);
         var i = users.indexOf(data.user);
         console.log(i)
         if (i != -1) {
