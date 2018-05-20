@@ -34,14 +34,14 @@ io.on('connection', function (socket) {
     // console.log(socket);
     console.log(`Sockets engaged: ${socket.id}`);
     socket.on('create_user', function (request){
-        // console.log(request);
+        console.log(`request data:`,request);
         users.push(request.data);
         socket.emit('myData', {
             'users' : users.join(', '), 
             'name' : request.data,
             'id' : socket.id,
         });
-        socket.broadcast.emit('userConnected',{})
+        socket.broadcast.emit('userConnected',{ 'name' : request.data , 'id' : socket.id })
     });
 
     socket.on('send_my_world', function (request) {

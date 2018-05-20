@@ -54,7 +54,8 @@ $(document).ready(function(){
     });
 
     socket.on('userConnected',function(data){
-        $('#chat').prepend(`<p>${data.user.name} - ${data.user.id} joined the conversation.</p>`);
+        console.log(data)
+        $('#chat').prepend(`<p>${data.name} - ${data.id} joined the conversation.</p>`);
     });
 
     // others - on receipt, broadcast individual world to new user socket id
@@ -62,7 +63,7 @@ $(document).ready(function(){
         console.log(`new user world`, data);
         generateWorld(data.world, data.user, 'otherGameClients');
         console.log(`broadcasting to ${data.user.id}`)
-        socket.to(data.user.id).emit('otherWorld',{ user : player, world : world });
+        socket.emit('otherWorld',{ user : player, world : world });
     });
 
 
@@ -71,7 +72,7 @@ $(document).ready(function(){
         socket.emit('remove_user', { user : user, playerId : player.id });
     });
 
-    socket.on('remove_user_res', function (data) {
+    socket.on('remove_user_res', function ( data) {
         console.log(`remove user res`, data);
         $(`div #${data.id}`).detach();
     })
